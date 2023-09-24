@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
-#import sklearn dependecy on streamlit
 
 st.title("Bank Customer Churn Prediction")
 #test
