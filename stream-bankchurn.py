@@ -13,7 +13,14 @@ credit_card = st.number_input('Credit Card')
 active_member = st.number_input('Active Member')
 estimated_salary = st.number_input('Estimated Salary')
 
+if st.button('Predict'):
+    pred = prediction(credit_score, country, gender, age, tenure, balance, products_number, credit_card, active_member, estimated_salary)
 
+    if pred is not None:
+        if pred == 1:
+            st.write("The customer has left.")
+        else:
+            st.write("The customer is still active.")
 
 #tes
 name = st.text_input("Enter your name", '')
