@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
-import StandardScaler
+import sklearn
 st.title("Bank Customer Churn Prediction")
 #test
 credit_score = st.number_input('Credit Score')
