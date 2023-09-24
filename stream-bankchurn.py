@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from sklearn.neighbors import NearestNeighbors
+import NearestNeighbors
 import numpy as np
 import pickle
 
