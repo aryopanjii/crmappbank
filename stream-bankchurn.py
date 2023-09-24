@@ -1,3 +1,54 @@
+import streamlit as st
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+import pickle
+
+sclr = StandardScaler()
+
+# loading models
+df = pickle.load(open('df.pkl', 'rb'))
+rfc = pickle.load(open('rfc.pkl', 'rb'))
+
+def prediction(credit_score, country, gender, age, tenure, balance, products_number, credit_card, active_member, estimated_salary):
+    # Check for empty strings and handle accordingly
+    if credit_score == '':
+        st.error("Please provide a valid credit score.")
+        return None
+    if country == '':
+        st.error("Please provide a valid country.")
+        return None
+    if gender == '':
+        st.error("Please provide a valid gender.")
+        return None
+    if age == '':
+        st.error("Please provide a valid age.")
+        return None
+    if tenure == '':
+        st.error("Please provide a valid tenure.")
+        return None
+    if balance == '':
+        st.error("Please provide a valid balance.")
+        return None
+    if products_number == '':
+        st.error("Please provide a valid number of products.")
+        return None
+    if credit_card == '':
+        st.error("Please provide a valid credit card status.")
+        return None
+    if active_member == '':
+        st.error("Please provide a valid active member status.")
+        return None
+    if estimated_salary == '':
+        st.error("Please provide a valid estimated salary.")
+        return None
+
+    features = np.array([[float(credit_score), country, gender, float(age), float(tenure), float(balance), float(products_number), float(credit_card), float(active_member), float(estimated_salary)]])
+    features = sclr.fit_transform(features)  # Scale the country column
+    prediction = rfc.predict(features).reshape(1, -1)
+    return prediction[0]
+
+# web app
 st.title('Bank Customer Churn Prediction')
 credit_score = st.number_input('Credit Score')
 country = st.text_input('Country')
