@@ -1,3 +1,4 @@
+from sklearn.pipeline import Pipeline
 streamlit
 sklearn
 matplot
