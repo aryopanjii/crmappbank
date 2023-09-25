@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import pickle
 import base64
-from sklearn.preprocessing import StandardScaler
 
 st.write('''# *Client Churn Predictor*''')
   
