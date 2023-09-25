@@ -1,72 +1,46 @@
 import streamlit as st
-import pandas as pd
-import sklearn
-import numpy as np
 import pickle
+import numpy as np
+#model  = pickle.load(open('clf.pkl','rb'))
+st.title('Bank Churn Prediction')
+html_temp ="""
+<div style ="background-color:#025246 ;padding:10px">
+<h2 style="color:white;text-align:center;">Bank Churn Prediction ML App</h2>
+</div>
+"""
+st.markdown(html_temp,unsafe_allow_html=True)
+Age =st.text_input("Age")
+Tenure =st.text_input("Tenure",)
+Balance =st.text_input("Balance")
+HasCrCard =st.text_input("HasCrCard")
+EstimatedSalary =st.text_input("EstimatedSalary")
+
+safe_html = """
+<div style ="background-color:#F4D03F;padding:10px>
+<h2 style="color:white; text-align:center;">Customer will not exit</h2>
+</div>
+"""
+danger_html="""
+<div style ="background-color:#F4D03F;padding:10px>
+<h2 style="color:white; text-align:center;">Customer will exit</h2>
+</div>
+"""
+def predict_cust(Age,	Tenure	,Balance,	HasCrCard,EstimatedSalary):
+    input = np.array([[Age,	Tenure	,Balance,	HasCrCard,EstimatedSalary]]).astype(np.float64)
+    prediction=model.predict_proba(input)
+    pred = np.argmax(prediction)
+    return pred
+    
 
 
-sclr = StandardScaler()
 
-# loading models
-df = pickle.load(open('df.pkl', 'rb'))
-rfc = pickle.load(open('rfc.pkl', 'rb'))
+if st.button("Predict"):
+    output=predict_cust(Age,	Tenure	,Balance,	HasCrCard,EstimatedSalary)
+    st.success("The verdict{}".format(output))
 
-def prediction(credit_score, country, gender, age, tenure, balance, products_number, credit_card, active_member, estimated_salary):
-    # Check for empty strings and handle accordingly
-    if credit_score == '':
-        st.error("Please provide a valid credit score.")
-        return None
-    if country == '':
-        st.error("Please provide a valid country.")
-        return None
-    if gender == '':
-        st.error("Please provide a valid gender.")
-        return None
-    if age == '':
-        st.error("Please provide a valid age.")
-        return None
-    if tenure == '':
-        st.error("Please provide a valid tenure.")
-        return None
-    if balance == '':
-        st.error("Please provide a valid balance.")
-        return None
-    if products_number == '':
-        st.error("Please provide a valid number of products.")
-        return None
-    if credit_card == '':
-        st.error("Please provide a valid credit card status.")
-        return None
-    if active_member == '':
-        st.error("Please provide a valid active member status.")
-        return None
-    if estimated_salary == '':
-        st.error("Please provide a valid estimated salary.")
-        return None
+    if output ==0:
+        st.markdown(safe_html,unsafe_allow_html=True)
+    else:
+        st.markdown(danger_html,unsafe_allow_html=True)
 
-    features = np.array([[float(credit_score), country, gender, float(age), float(tenure), float(balance), float(products_number), float(credit_card), float(active_member), float(estimated_salary)]])
-    features = sclr.fit_transform(features)  # Scale the country column
-    prediction = rfc.predict(features).reshape(1, -1)
-    return prediction[0]
 
-# web app
-st.title('Bank Customer Churn Prediction')
-credit_score = st.number_input('Credit Score')
-country = st.text_input('Country')
-gender = st.text_input('Gender')
-age = st.number_input('Age')
-tenure = st.number_input('Tenure')
-balance = st.number_input('Balance')
-products_number = st.number_input('Products Number')
-credit_card = st.number_input('Credit Card')
-active_member = st.number_input('Active Member')
-estimated_salary = st.number_input('Estimated Salary')
-
-if st.button('Predict'):
-    pred = prediction(credit_score, country, gender, age, tenure, balance, products_number, credit_card, active_member, estimated_salary)
-
-    if pred is not None:
-        if pred == 1:
-            st.write("The customer has left.")
-        else:
-            st.write("The customer is still active.")
