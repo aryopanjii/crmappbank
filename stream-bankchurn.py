@@ -2,7 +2,7 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 import streamlit as st
-import predict
+
 
 
 def get_user_input(df_train):
