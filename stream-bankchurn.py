@@ -1,7 +1,7 @@
 import streamlit as st
 import pickle
 import numpy as np
-#model  = pickle.load(open('clf.pkl','rb'))
+model  = pickle.load(open('clf.pkl','rb'))
 st.title('Bank Churn Prediction')
 html_temp ="""
 <div style ="background-color:#025246 ;padding:10px">
