@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import pickle
+import sklearn
 
 # Load the Random Forest model from the pickle file
 model = pickle.load(open('randomforest.pkl', 'rb'))
